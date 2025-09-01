@@ -19,7 +19,7 @@ enum tap_dance_codes {
 const key_override_t eth_shift_override =
   ko_make_basic(MOD_MASK_SHIFT, ETH_LOWER, ETH_UPPER);
 
-const key_override_t **key_overrides = (const key_override_t *[]){
+const key_override_t *key_overrides[] = {
   &eth_shift_override,
   NULL
 };
