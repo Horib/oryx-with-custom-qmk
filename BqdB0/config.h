@@ -1,11 +1,8 @@
 #undef DEBOUNCE
 #define DEBOUNCE 5
 
-#undef TAPPING_TERM
-#define TAPPING_TERM 150
-
 #define USB_SUSPEND_WAKEUP_DELAY 0
-#define SERIAL_NUMBER "BqdB0/eadV0R"
+#define SERIAL_NUMBER "BqdB0/NoaKxX"
 #define LAYER_STATE_8BIT
 #define COMBO_COUNT 3
 
