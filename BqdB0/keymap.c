@@ -14,27 +14,6 @@ enum tap_dance_codes {
   DANCE_0,
 };
 
-enum unicode_names {
-    U_ETH_LOWER,
-    U_ETH_UPPER,
-    U_O_SLASH_LOWER,
-    U_O_SLASH_UPPER,
-    U_AE_LOWER,
-    U_AE_UPPER,
-    U_A_RING_LOWER,
-    U_A_RING_UPPER,
-};
-const uint32_t unicode_map[] PROGMEM = {
-    [U_ETH_LOWER]      = 0x00F0,  // ð
-    [U_ETH_UPPER]      = 0x00D0,  // Ð
-    [U_O_SLASH_LOWER]  = 0x00F8,  // ø
-    [U_O_SLASH_UPPER]  = 0x00D8,  // Ø
-    [U_AE_LOWER]       = 0x00E6,  // æ
-    [U_AE_UPPER]       = 0x00C6,  // Æ
-    [U_A_RING_LOWER]   = 0x00E5,  // å
-    [U_A_RING_UPPER]   = 0x00C5,  // Å
-};
-
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT_voyager(
     KC_ESCAPE,      KC_1,           KC_2,           KC_3,           KC_4,           KC_5,                                           KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           LT(6, IS_20),   
