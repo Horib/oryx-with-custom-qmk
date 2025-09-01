@@ -8,16 +8,26 @@
 
 enum custom_keycodes {
   RGB_SLD = ZSA_SAFE_RANGE,
+  ETH_LOWER, // types ð via macOS text replace
+  ETH_UPPER, // types Ð via macOS text replace
 };
 
 enum tap_dance_codes {
   DANCE_0,
 };
 
+const key_override_t eth_shift_override =
+  ko_make_basic(MOD_MASK_SHIFT, ETH_LOWER, ETH_UPPER);
+
+const key_override_t **key_overrides = (const key_override_t *[]){
+  &eth_shift_override,
+  NULL
+};
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT_voyager(
     KC_ESCAPE,      KC_1,           KC_2,           KC_3,           KC_4,           KC_5,                                           KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           LT(6, IS_20),   
-    KC_TAB,         RALT(KC_O),     RALT(KC_D),     RALT(KC_QUOT),  RALT(KC_A),     KC_T,                                           KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           IS_22,          
+    KC_TAB,         RALT(KC_O),     ETH_LOWER,      RALT(KC_QUOT),  RALT(KC_A),     KC_T,                                           KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           IS_22,          
     KC_LEFT_SHIFT,  MT(MOD_LGUI, KC_A),MT(MOD_LALT, KC_S),MT(MOD_LCTL, KC_D),MT(MOD_LSFT, KC_F),KC_G,                                           KC_H,           MT(MOD_RSFT, KC_J),MT(MOD_RCTL, KC_K),MT(MOD_RALT, KC_L),MT(MOD_RGUI, IS_21),MT(MOD_RSFT, IS_16),
     KC_LEFT_CTRL,   MT(MOD_LALT, KC_Z),KC_X,           KC_C,           KC_V,           KC_B,                                           KC_N,           KC_M,           KC_COMMA,       KC_DOT,         KC_F16,         KC_RIGHT_CTRL,  
                                                     LT(4, KC_SPACE),MT(MOD_LGUI, KC_BSPC),                                MT(MOD_RGUI, KC_DELETE),LT(3, KC_ENTER)
@@ -250,14 +260,29 @@ tap_dance_action_t tap_dance_actions[] = {
         [DANCE_0] = ACTION_TAP_DANCE_FN_ADVANCED(on_dance_0, dance_0_finished, dance_0_reset),
 };
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
+// Send a replacement trigger and consume the trailing space so nothing is left behind.
+static void send_replacement(const char* s) {
+    // Type trigger + space (to fire replacement), then backspace to remove the space.
+    send_string(s);
+    tap_code(KC_SPC);
+    tap_code(KC_BSPC);
+}
 
-    case RGB_SLD:
-      if (record->event.pressed) {
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  if (record->event.pressed) {
+    switch (keycode) {
+      case RGB_SLD:
         rgblight_mode(1);
-      }
-      return false;
+        return false;
+
+      case ETH_LOWER:    // ð
+        send_replacement(";d");   // or ",d" if you chose that
+        return false;
+
+      case ETH_UPPER:    // Ð
+        send_replacement(";D");
+        return false;
+    }
   }
   return true;
 }
