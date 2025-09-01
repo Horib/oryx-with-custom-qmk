@@ -10,13 +10,37 @@ enum custom_keycodes {
   RGB_SLD = ZSA_SAFE_RANGE,
 };
 
-
-
 enum tap_dance_codes {
   DANCE_0,
   DANCE_1,
 };
 
+enum unicode_names {
+    U_ETH_LOWER,
+    U_ETH_UPPER,
+    U_O_SLASH_LOWER,
+    U_O_SLASH_UPPER,
+    U_AE_LOWER,
+    U_AE_UPPER,
+    U_A_RING_LOWER,
+    U_A_RING_UPPER,
+};
+const uint32_t unicode_map[] PROGMEM = {
+    [U_ETH_LOWER]      = 0x00F0,  // ð
+    [U_ETH_UPPER]      = 0x00D0,  // Ð
+    [U_O_SLASH_LOWER]  = 0x00F8,  // ø
+    [U_O_SLASH_UPPER]  = 0x00D8,  // Ø
+    [U_AE_LOWER]       = 0x00E6,  // æ
+    [U_AE_UPPER]       = 0x00C6,  // Æ
+    [U_A_RING_LOWER]   = 0x00E5,  // å
+    [U_A_RING_UPPER]   = 0x00C5,  // Å
+};
+
+// Define custom keycodes for these symbols (shift-able)
+#define UC_ETH    UP(U_ETH_LOWER, U_ETH_UPPER)       // ð / Ð
+#define UC_OSLS   UP(U_O_SLASH_LOWER, U_O_SLASH_UPPER) // ø / Ø
+#define UC_AE     UP(U_AE_LOWER, U_AE_UPPER)         // æ / Æ
+#define UC_ARNG   UP(U_A_RING_LOWER, U_A_RING_UPPER)  // å / Å
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT_voyager(
